@@ -25,8 +25,8 @@ def main():
     print(f"Processing Row {row} (Post: {post_no})")
 
     # Download image and audio/video clip from Google Drive
-    gdown.download(image_url, "input_image.jpg", quiet=False, fuzzy=True)
-    gdown.download(audio_url, "input_audio.mp4", quiet=False, fuzzy=True)
+    gdown.download(image_url, "input_image.jpg", quiet=False)
+    gdown.download(audio_url, "input_audio.mp4", quiet=False)
 
     os.makedirs("reels", exist_ok=True)
     output_filename = f"reels/reel_{post_no}_row{row}.mp4"
