@@ -1,0 +1,44 @@
+name: Daily Mandir HD Reel Generator
+
+on:
+  schedule:
+    # Runs daily at 7:30 AM IST (02:00 UTC) so Reel is ready before 8:00 AM Make.com post
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-reel:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update && sudo apt-get install -y ffmpeg
+          pip install requests gdown
+
+      - name: Generate HD Reel
+        run: python generate_reel.py
+
+      - name: Push Reel to GitHub & Update Google Sheet
+        run: |
+          if [ -f reel_meta.json ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add reels/
+            git commit -m "Add generated HD Mandir Reel" || exit 0
+            git push
+
+            curl -L -X POST -H "Content-Type: application/json" \
+              -d @reel_meta.json \
+              "https://script.google.com/macros/s/AKfycbzaXBD2kpE3c-lBTSh31XGNWettsR4qW3Fec3InvxslAOeW2bIeoHdDXnvgvxzv34p1fA/exec"
+          fi
