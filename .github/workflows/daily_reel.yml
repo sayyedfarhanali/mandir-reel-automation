@@ -3,9 +3,9 @@ name: Daily Mandir HD Reel Generator
 on:
   schedule:
     # Runs daily at 7:30 AM IST (02:00 UTC) so Reel is ready before 8:00 AM Make.com post
-    - cron: '0 1 * * *'   # 6:30 AM IST (Reel 1)
-    - cron: '30 1 * * *'  # 7:00 AM IST (Reel 2)
-    - cron: '0 2 * * *'   # 7:30 AM IST (Reel 3)
+    - cron: '12 1 * * *'   # 6:42 AM IST (Reel 1)
+    - cron: '37 1 * * *'   # 7:07 AM IST (Reel 2)
+    - cron: '7 2 * * *'    # 7:37 AM IST (Reel 3)
   workflow_dispatch:
 
 permissions:
